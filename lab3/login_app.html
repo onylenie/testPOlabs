@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестовое приложение для авторизации</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .logout-btn {
+            background-color: #f44336;
+        }
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Система авторизации</h2>
+        
+        <!-- Форма логина -->
+        <div id="loginForm">
+            <div class="form-group">
+                <label for="username">Логин:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button onclick="login()">Войти</button>
+            <div id="errorMessage" class="error"></div>
+        </div>
+
+        <!-- Контент после успешного входа -->
+        <div id="dashboard" style="display: none;">
+            <div class="success" id="successMessage">Успешный вход в систему!</div>
+            <h3>Добро пожаловать, <span id="userDisplay"></span>!</h3>
+            <p>Это защищенная страница вашего аккаунта.</p>
+            
+            <!-- КНОПКА ВЫХОДА - ДОБАВЛЕНА -->
+            <button class="logout-btn" onclick="logout()">Выйти</button>
+        </div>
+    </div>
+
+    <script>
+        // Валидные учетные данные
+        const validUsers = {
+            'admin': 'admin123',
+            'user': 'user123',
+            'test': 'test123'
+        };
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('errorMessage');
+            const successElement = document.getElementById('successMessage');
+            const loginForm = document.getElementById('loginForm');
+            const dashboard = document.getElementById('dashboard');
+            const userDisplay = document.getElementById('userDisplay');
+
+            // Сброс сообщений
+            errorElement.style.display = 'none';
+            successElement.style.display = 'none';
+
+            // Проверка credentials
+            if (validUsers[username] && validUsers[username] === password) {
+                // Успешный вход
+                successElement.textContent = `Успешный вход! Добро пожаловать, ${username}!`;
+                successElement.style.display = 'block';
+                
+                // Переключаем видимость блоков
+                loginForm.style.display = 'none';
+                dashboard.style.display = 'block';
+                userDisplay.textContent = username;
+                
+            } else {
+                // Неудачный вход
+                errorElement.textContent = 'Ошибка: Неверный логин или пароль';
+                errorElement.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            // Сброс формы
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            
+            // Показываем форму логина, скрываем dashboard
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

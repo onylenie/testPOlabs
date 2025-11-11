@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестовая контактная форма</title>
+    <style>
+        .container { max-width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .error { color: red; font-size: 12px; margin-top: 5px; display: none; }
+        .success { color: green; padding: 10px; background: #f0fff0; border: 1px solid green; margin-top: 15px; display: none; }
+        button { background: #007cba; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #005a87; }
+
+        /* Стили для показа/скрытия */
+        .show { display: block !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Контактная форма</h1>
+
+        <!-- Сообщение об успехе -->
+        <div class="success" id="success-message">
+            Сообщение успешно отправлено! Спасибо за ваше обращение.
+        </div>
+
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">Имя *</label>
+                <input type="text" id="name" name="name">
+                <div class="error" id="name-error">Поле "Имя" обязательно для заполнения</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="text" id="email" name="email">
+                <div class="error" id="email-error">Введите корректный email адрес</div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Телефон</label>
+                <input type="text" id="phone" name="phone">
+                <div class="error" id="phone-error">Введите корректный номер телефона</div>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Сообщение *</label>
+                <textarea id="message" name="message" rows="4"></textarea>
+                <div class="error" id="message-error">Поле "Сообщение" обязательно для заполнения</div>
+            </div>
+
+            <button type="button" id="submit-button" onclick="validateAndSubmit()">Отправить</button>
+        </form>
+    </div>
+
+    <script>
+        function validateAndSubmit() {
+            // Скрываем все сообщения
+            hideAllMessages();
+
+            let hasErrors = false;
+
+            // Проверка имени
+            const name = document.getElementById('name').value.trim();
+            if (name === '') {
+                document.getElementById('name-error').classList.add('show');
+                hasErrors = true;
+            }
+
+            // Проверка email
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === '' || !emailRegex.test(email)) {
+                document.getElementById('email-error').classList.add('show');
+                hasErrors = true;
+            }
+
+            // Проверка сообщения
+            const message = document.getElementById('message').value.trim();
+            if (message === '') {
+                document.getElementById('message-error').classList.add('show');
+                hasErrors = true;
+            }
+
+            if (hasErrors) {
+                return false; // Останавливаем отправку
+            } else {
+                // Показываем успешное сообщение
+                document.getElementById('success-message').classList.add('show');
+                // Очищаем форму
+                document.getElementById('contactForm').reset();
+                return true;
+            }
+        }
+
+        function hideAllMessages() {
+            const messages = document.querySelectorAll('.error, .success');
+            messages.forEach(message => {
+                message.classList.remove('show');
+            });
+        }
+    </script>
+</body>
+</html>

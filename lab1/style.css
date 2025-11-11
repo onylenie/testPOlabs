@@ -1,0 +1,39 @@
+.calculator {
+    width: 300px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+input#result {
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    padding: 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button:active {
+    background-color: #e0e0e0;
+}
+/* Кнопки с действиями: ^, √, /, *, -, + */
+.action-button {
+    background-color: #444; /* Тёмный цвет */
+    color: white;
+}
+
+/* Кнопки = и C */
+.red-button {
+    background-color: red;
+    color: white;
+}
