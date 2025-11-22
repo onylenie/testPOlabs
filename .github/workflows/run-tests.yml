@@ -5,8 +5,8 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch: 
-  
+  workflow_dispatch:  
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -21,8 +21,8 @@ jobs:
         python-version: '3.9'
         
     - name: Install dependencies
+      working-directory: ./lab9
       run: |
-        cd lab9  # Переходим в папку lab9 
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
@@ -32,23 +32,23 @@ jobs:
         sudo apt-get install -y google-chrome-stable
         
     - name: Verify environment
+      working-directory: ./lab9
       run: |
-        cd lab9 
         python -c "import selenium; print('Selenium imported successfully')"
         python -c "import pytest; print('Pytest imported successfully')"
-        echo "Chrome version:"
-        google-chrome --version
+        echo "Содержимое папки lab9:"
+        ls -la
         
     - name: Run tests with pytest
+      working-directory: ./lab9
       run: |
-        cd lab9  # Переходим в папку lab9
         python -m pytest test_ci_cd.py -v --html=test-report.html
         
     - name: Upload test report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: lab9-test-report
-        path: lab9/test-report.html  # Путь к отчету из папки lab9
+        path: lab9/test-report.html
         
     - name: Test status
       run: |
