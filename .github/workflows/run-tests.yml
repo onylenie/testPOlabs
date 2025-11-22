@@ -1,0 +1,41 @@
+name: Run Automated Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r lab3/requirements.txt
+        
+    - name: Install Chrome browser
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+        
+    - name: Run Selenium tests
+      run: |
+        cd lab3
+        python -m pytest test_my_login_app.py -v --html=report.html
+        
+    - name: Upload test report
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-report
+        path: lab3/report.html
