@@ -4,7 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -19,9 +18,8 @@ class TestLoginAppCI:
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--disable-gpu")
         
-        # Явно указываем путь к chromedriver
-        driver_path = ChromeDriverManager().install()
-        service = Service(driver_path)
+        # Используем системный chromedriver
+        service = Service("/usr/bin/chromedriver")
         
         self.driver = webdriver.Chrome(service=service, options=chrome_options)
         self.driver.implicitly_wait(10)
